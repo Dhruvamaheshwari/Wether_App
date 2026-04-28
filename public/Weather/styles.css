@@ -17,7 +17,7 @@
 }
 
 body{
-    height:100vh;
+    min-height:100vh;
     background-color: #e9f5e9;
     color: #2d472d;
 }
@@ -29,12 +29,12 @@ body{
 }
 
 .weather-input{
-    /* width: 35%; */
     width: 25%;
     position: fixed;
     inset: 0;
     background: #a7d7a7;
     padding: 1rem 2.5rem;
+    overflow-y: auto;
 }
 
 .weatherIcon{
@@ -191,11 +191,17 @@ body{
 
 .forecast-desc {
     color: #4d704d;
-    font-size: 0.8 rem;
+    font-size: 0.8rem;
     text-align: center;
     padding-bottom: 5px;
     font-style: italic;
     
+}
+
+.forecast-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
 }
 
 .Forecast div:hover{
@@ -249,6 +255,41 @@ body{
       transform: translateY(-100%);
     }
   }
+
+@media (max-width: 1100px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .weather-input,
+    .weather-output {
+        position: static;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .Highlights,
+    .Forecast {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .weather-input,
+    .weather-output {
+        padding: 1rem;
+    }
+
+    .Highlights,
+    .Forecast {
+        grid-template-columns: 1fr;
+    }
+
+    .temperature {
+        font-size: 3.5rem;
+        justify-content: center;
+    }
+}
 
 
 

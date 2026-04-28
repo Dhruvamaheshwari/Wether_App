@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SoilSampleController;
+use App\Http\Controllers\WeatherController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
@@ -15,6 +16,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/home', function () {
@@ -69,7 +71,6 @@ Route::middleware('auth')->group(function () {
         return view('chatbot');
     })->name('chatbot');
 
-    Route::get('/weather', function () {
-        return view('weather');
-    })->name('weather');
+    Route::get('/weather/data', [WeatherController::class, 'fetch'])->name('weather.data');
+    Route::get('/weather', [WeatherController::class, 'index'])->name('weather');
 });

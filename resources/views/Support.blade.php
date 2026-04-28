@@ -54,7 +54,7 @@
       const form = document.getElementById("contactForm");
       const formData = new FormData(form);
 
-      fetch("contact.php", {
+      fetch("{{ route('contact') }}", {
           method: "POST",
           body: formData
         })

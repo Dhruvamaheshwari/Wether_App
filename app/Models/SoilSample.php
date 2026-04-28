@@ -8,6 +8,7 @@ class SoilSample extends Model
 {
     protected $fillable = [
         'sample_id',
+        'email',
         'location',
         'sample_date',
         'soil_type',

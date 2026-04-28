@@ -291,6 +291,10 @@
                         <input type="text" id="sample-id" placeholder="Enter sample ID or generate new">
                     </div>
                     <div class="form-group">
+                        <label for="email">User Email</label>
+                        <input type="email" id="email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
                         <label for="location">Location</label>
                         <input type="text" id="location" placeholder="Field location">
                     </div>
@@ -489,6 +493,7 @@
                 if (!selectedSampleId) {
                     // Reset to new sample mode
                     sampleId.value = 'S' + today.getFullYear().toString().substr(-2) + '-' + Math.floor(1000 + Math.random() * 9000);
+                    document.getElementById('email').value = '';
                     document.getElementById('location').value = '';
                     document.getElementById('soil-type').value = '';
                     document.getElementById('crop-type').value = '';
@@ -723,6 +728,7 @@
                 // POST date to database
                 const requestData = {
                     sample_id: document.getElementById('sample-id').value,
+                    email: document.getElementById('email').value,
                     location: document.getElementById('location').value,
                     sample_date: document.getElementById('sample-date').value,
                     soil_type: soilType,
@@ -758,6 +764,7 @@
             function displayLoadedResults(data) {
                 // Populate inputs
                 document.getElementById('sample-id').value = data.sample_id;
+                document.getElementById('email').value = data.email || '';
                 document.getElementById('location').value = data.location || '';
                 if (data.sample_date) document.getElementById('sample-date').value = data.sample_date;
                 if (data.soil_type) document.getElementById('soil-type').value = data.soil_type;

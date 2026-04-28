@@ -24,6 +24,7 @@ class SoilSampleController extends Controller
     {
         $validatedData = $request->validate([
             'sample_id' => 'required|string',
+            'email' => 'nullable|email',
             'location' => 'nullable|string',
             'sample_date' => 'nullable|date',
             'soil_type' => 'nullable|string',
