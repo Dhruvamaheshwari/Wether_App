@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+.background {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.background img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.login-container1 {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    width: 350px;
+    margin: 150px auto ;
+}
+.login-container {
+    display: flex; /* Added flex display for horizontal layout */
+    flex-direction: row; /* Ensures the items are side-by-side */
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center; /* Aligns the content vertically */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    width: 650px; /* Increased width for side-by-side layout */
+    margin: 150px auto;
+}
+
+.login-image {
+    flex: 1; /* Takes up one part of the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-image img {
+    max-width: 50%; 
+    border-radius: 10px; /* Optional: Adds rounded corners */
+}
+
+
+h2 {
+    margin-bottom: 1rem;
+}
+
+.input-group {
+    position: relative;
+    margin: 1rem 0;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    padding-left: 35px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+.icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: gray;
+}
+.pass-see{
+    position: absolute;
+    height: 2px;
+    right: 25px;
+    top: 55%;
+    transform: translateY(-60%);
+    cursor: pointer;
+}
+.options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+.options a {
+    margin-left: 13px;
+  }
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background:#0066cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn:hover {
+    background: #0066cc;
+}
+
+p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+a {
+    color: #e1bee7;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+.links{
+    display:contents;
+    padding:0 4rem;
+    margin-top:0.9rem;
+    font-weight:bold;
+}
+button{
+    background: #0066cc; /* Changed to a deeper blue tone */
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-color:transparent;
+    font-size: 1rem;
+    font-weight:bold;
+}
+button:hover{
+    text-decoration:underline;
+    color:#0066cc;
+}
+
+
+/* From Uiverse.io by catraco */ 
+/*------ Settings ------*/
+.container {
+    --color: #a5a5b0;
+    --size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    font-size: var(--size);
+    user-select: none;
+    fill: var(--color);
+  }
+  
+  .container .eye {
+    position: absolute;
+    animation: keyframes-fill .5s;
+  }
+  
+  .container .eye-slash {
+    position: absolute;
+    animation: keyframes-fill .5s;
+    display: none;
+  }
+  
+  /* ------ On check event ------ */
+  .container input:checked ~ .eye {
+    display: none;
+  }
+  
+  .container input:checked ~ .eye-slash {
+    display: block;
+  }
+  
+  /* ------ Hide the default checkbox ------ */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* ------ Animation ------ */
+  @keyframes keyframes-fill {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+  
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+/* SweetAlert Custom Styles */
+.custom-swal-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.swal2-popup {
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+.swal2-title {
+    color: #ff4757 !important;
+    font-size: 24px !important;
+}
+
+.swal2-confirm {
+    padding: 10px 25px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s !important;
+}
+
+.swal2-confirm:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4) !important;
+}
