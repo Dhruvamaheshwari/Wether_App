@@ -18,9 +18,10 @@
             </div>
             <div>
                 <h2>Sign In</h2>
-                <form method="post" action="register.php">
+                <form method="post" action="{{ route('login.post') }}">
+                    @csrf
                     <div class="input-group">
-                        <input type="email" name="email" id="email" placeholder="Email">
+                        <input type="email" name="email" id="email" placeholder="Email" required>
                         <span class="icon">&#128231;</span>
                     </div>
                     <div class="input-group">
@@ -60,7 +61,8 @@
 
         <div class="login-container1" id="signup" style="display:none;">
             <h2>Register</h2>
-            <form method="post" action="register.php">
+            <form method="post" action="{{ route('register.post') }}">
+                @csrf
                 <div class="input-group">
                     <input type="text" name="fName" id="fName" placeholder="First Name" required>
                     <span class="icon">&#128100;</span>
@@ -104,64 +106,78 @@
             <!-- </div> -->
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="{{ asset('script.js') }}"></script>
     <script>
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
-    const eyeIcon = document.querySelector('.eye');
-    const eyeSlashIcon = document.querySelector('.eye-slash');
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordField = document.getElementById('password');
+        const eyeIcon = document.querySelector('.eye');
+        const eyeSlashIcon = document.querySelector('.eye-slash');
 
-    passwordField.type = 'password';
-    eyeIcon.style.display = 'none';
-    eyeSlashIcon.style.display = 'inline';
+        passwordField.type = 'password';
+        eyeIcon.style.display = 'none';
+        eyeSlashIcon.style.display = 'inline';
 
-    document.getElementById('togglePasswordCheckbox').addEventListener('change', function() {
-        if (this.checked) {
-            passwordField.type = 'password';
-            eyeIcon.style.display = 'none';
-            eyeSlashIcon.style.display = 'inline';
-        } else {
-            passwordField.type = 'text';
-            eyeIcon.style.display = 'inline';
-            eyeSlashIcon.style.display = 'none';
-        }
-    });
+        document.getElementById('togglePasswordCheckbox').addEventListener('change', function() {
+            if (this.checked) {
+                passwordField.type = 'password';
+                eyeIcon.style.display = 'none';
+                eyeSlashIcon.style.display = 'inline';
+            } else {
+                passwordField.type = 'text';
+                eyeIcon.style.display = 'inline';
+                eyeSlashIcon.style.display = 'none';
+            }
+        });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Select password fields and their corresponding checkboxes
-        const passwordFields = document.querySelectorAll('[type="password"]');
-        const toggleCheckboxes = document.querySelectorAll('[id$="togglePasswordCheckbox"]');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select password fields and their corresponding checkboxes
+            const passwordFields = document.querySelectorAll('[type="password"]');
+            const toggleCheckboxes = document.querySelectorAll('[id$="togglePasswordCheckbox"]');
 
-        toggleCheckboxes.forEach((checkbox, index) => {
-            const eyeIcon = checkbox.parentElement.querySelector('.eye');
-            const eyeSlashIcon = checkbox.parentElement.querySelector('.eye-slash');
+            toggleCheckboxes.forEach((checkbox, index) => {
+                const eyeIcon = checkbox.parentElement.querySelector('.eye');
+                const eyeSlashIcon = checkbox.parentElement.querySelector('.eye-slash');
 
-            checkbox.addEventListener('change', function() {
-                if (checkbox.checked) {
-                    passwordFields[index].type = 'password';
-                    eyeIcon.style.display = 'none';
-                    eyeSlashIcon.style.display = 'inline';
-                } else {
-                    passwordFields[index].type = 'text';
-                    eyeIcon.style.display = 'inline';
-                    eyeSlashIcon.style.display = 'none';
-                }
+                checkbox.addEventListener('change', function() {
+                    if (checkbox.checked) {
+                        passwordFields[index].type = 'password';
+                        eyeIcon.style.display = 'none';
+                        eyeSlashIcon.style.display = 'inline';
+                    } else {
+                        passwordFields[index].type = 'text';
+                        eyeIcon.style.display = 'inline';
+                        eyeSlashIcon.style.display = 'none';
+                    }
+                });
             });
         });
-    });
     </script>
-   <?php if (isset($_GET['registration']) && $_GET['registration'] === 'success'): ?>
+
+    @if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '{{ $errors->first() }}',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#e74c3c',
+            width: '480px',
+        });
+    </script>
+    @endif
+
+    @if (session('success'))
     <script>
         Swal.fire({
             icon: 'success',
             title: 'Great!',
-            text: 'Registration successful! Please log in.',
+            text: '{{ session("success") }}',
             confirmButtonText: 'OK',
-        confirmButtonColor: '#2ecc71', // Green color for the OK button
-        width: '480px', // Smaller width for the Swal box
+            confirmButtonColor: '#2ecc71',
+            width: '480px',
         });
     </script>
-<?php endif; ?>
+    @endif
 </body>
 
 </html>

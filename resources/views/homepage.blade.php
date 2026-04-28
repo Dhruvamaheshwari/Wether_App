@@ -1,5 +1,4 @@
 <?php
-session_start();
 $showAlert = isset($_SESSION['show_login_alert']) && $_SESSION['show_login_alert'];
 if ($showAlert) {
     unset($_SESSION['show_login_alert']); // Clear the flag so it doesn't show again
@@ -7,6 +6,7 @@ if ($showAlert) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,12 +28,23 @@ if ($showAlert) {
             display: none;
             animation: fadeInOut 3s ease-in-out;
         }
-        
+
         @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
+            0% {
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
         }
 
         .custom-alert {
@@ -52,19 +63,30 @@ if ($showAlert) {
             text-align: center;
             max-width: 80%;
         }
-        
+
         @keyframes fadeInOut {
-            0% { opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { opacity: 0; }
+            0% {
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            85% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
         }
-        
+
         .custom-alert i {
             font-size: 24px;
             margin-right: 10px;
         }
-        
+
         /* Explore Section Styles */
         .explore-section {
             display: none;
@@ -75,7 +97,7 @@ if ($showAlert) {
             overflow: hidden;
             background: linear-gradient(135deg, rgba(242, 242, 242, 0.95) 0%, rgba(230, 247, 230, 0.95) 100%);
         }
-        
+
         .explore-section::before {
             content: "";
             position: absolute;
@@ -83,19 +105,19 @@ if ($showAlert) {
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: 
+            background-image:
                 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%234CAF50" fill-opacity="0.1"/><circle cx="50" cy="30" r="2" fill="%234CAF50" fill-opacity="0.1"/><circle cx="80" cy="20" r="3" fill="%234CAF50" fill-opacity="0.1"/><circle cx="30" cy="70" r="2" fill="%234CAF50" fill-opacity="0.1"/><circle cx="70" cy="80" r="3" fill="%234CAF50" fill-opacity="0.1"/></svg>'),
                 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M20,100 Q50,50 80,100 T140,100" stroke="%234CAF50" stroke-width="0.5" fill="none" stroke-opacity="0.1"/></svg>');
             background-size: 100px 100px, 200px 200px;
             opacity: 0.6;
             z-index: -1;
         }
-        
+
         .explore-container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .explore-section h2 {
             font-size: 2.8rem;
             margin-bottom: 20px;
@@ -103,7 +125,7 @@ if ($showAlert) {
             position: relative;
             display: inline-block;
         }
-        
+
         .explore-section h2::after {
             content: "";
             position: absolute;
@@ -113,7 +135,7 @@ if ($showAlert) {
             height: 3px;
             background: linear-gradient(to right, transparent, #4CAF50, transparent);
         }
-        
+
         .explore-section p {
             font-size: 1.2rem;
             max-width: 800px;
@@ -121,40 +143,44 @@ if ($showAlert) {
             color: #555;
             line-height: 1.6;
         }
-        
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
-        
+
         .feature-card-link {
-            display: block; /* Makes the entire div clickable */
-            text-decoration: none; /* Removes the default underline */
-            color: inherit; /* Keeps text colors the same */
+            display: block;
+            /* Makes the entire div clickable */
+            text-decoration: none;
+            /* Removes the default underline */
+            color: inherit;
+            /* Keeps text colors the same */
         }
 
         .feature-card {
-            cursor: pointer; /* Shows the pointer when hovering */
+            cursor: pointer;
+            /* Shows the pointer when hovering */
         }
 
         .feature-card {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
-        
+
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
         }
-        
+
         .feature-card::before {
             content: "";
             position: absolute;
@@ -167,31 +193,31 @@ if ($showAlert) {
             background-repeat: no-repeat;
             opacity: 0.8;
         }
-        
+
         .feature-icon {
             font-size: 3rem;
             color: #4CAF50;
             margin-bottom: 20px;
             transition: transform 0.3s;
         }
-        
+
         .feature-card:hover .feature-icon {
             transform: scale(1.1);
         }
-        
+
         .feature-card h3 {
             font-size: 1.5rem;
             margin-bottom: 15px;
             color: #2E7D32;
         }
-        
+
         .feature-card p {
             font-size: 1rem;
             color: #666;
             margin-bottom: 20px;
             line-height: 1.5;
         }
-        
+
         .data-preview {
             height: 200px;
             background: #f9f9f9;
@@ -199,9 +225,9 @@ if ($showAlert) {
             margin-top: 20px;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
-        
+
         .data-preview::before {
             content: "";
             position: absolute;
@@ -209,12 +235,12 @@ if ($showAlert) {
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: 
-                linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-        
+
         .data-point {
             position: absolute;
             width: 8px;
@@ -223,7 +249,7 @@ if ($showAlert) {
             border-radius: 50%;
             border: 2px solid #2E7D32;
         }
-        
+
         .close-explore {
             margin-top: 40px;
             padding: 12px 30px;
@@ -234,41 +260,52 @@ if ($showAlert) {
             cursor: pointer;
             font-size: 1rem;
             transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .close-explore:hover {
             background: #388E3C;
             transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
-        
+
         .close-explore i {
             margin-left: 8px;
         }
 
         /*Explore section div */
-        .Monitoring-Image, .Soil-Image, .AI-Image, .Forecast-Image, .Alert-Image, .Trends-Image {
+        .Monitoring-Image,
+        .Soil-Image,
+        .AI-Image,
+        .Forecast-Image,
+        .Alert-Image,
+        .Trends-Image {
             width: 100%;
             height: 100%;
             overflow: hidden;
             border-radius: 5px;
         }
-        .Monitoring-Image img, .Soil-Image img, .AI-Image img, .Forecast-Image img, .Alert-Image img, .Trends-Image img {
+
+        .Monitoring-Image img,
+        .Soil-Image img,
+        .AI-Image img,
+        .Forecast-Image img,
+        .Alert-Image img,
+        .Trends-Image img {
             width: 100%;
             height: auto;
             border-radius: 5px;
             transition: transform 0.3s;
         }
-
     </style>
 </head>
+
 <body>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        showAlert('Login successful!');
-    });
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showAlert('Login successful!');
+        });
+    </script>
     <div class="hero">
         <video autoplay loop muted plays-inline class="background-video">
             <source src="Images\Video1.mp4" type="video/mp4">
@@ -281,7 +318,7 @@ if ($showAlert) {
                 <li><a href="Chatbot\index.php" id="chat-bot">CHATBOT</a></li>
                 <div class="burger-menu">
                     <label class="burger" for="burger">
-                    <input class="line" type="checkbox" id="burger" />
+                        <input class="line" type="checkbox" id="burger" />
                     </label>
                     <div id="slide-page" class="slide-page">
                         <div class="Section_Nav">
@@ -300,13 +337,13 @@ if ($showAlert) {
             <a href="#" id="explore-btn">Explore</a>
         </div>
     </div>
-    
+
     <!-- Explore Section -->
     <section class="explore-section" id="exploreSection">
         <div class="explore-container">
             <h2>Automated Climate Monitoring System</h2>
             <p>Our advanced agricultural solution combines IoT sensors, AI analytics, and weather forecasting to help farmers optimize crop yields through precise climate monitoring and actionable insights.</p>
-            
+
             <div class="features-grid">
                 <a href="Monitor.php" class="feature-card-link">
                     <div class="feature-card">
@@ -322,7 +359,7 @@ if ($showAlert) {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="SoilAna.php" class="feature-card-link">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -337,7 +374,7 @@ if ($showAlert) {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="Chatbot\index.php" class="feature-card-link">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -352,7 +389,7 @@ if ($showAlert) {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="Weather\weather frontend\ref.php" class="feature-card-link">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -367,7 +404,7 @@ if ($showAlert) {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="Alert.php" class="feature-card-link">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -395,29 +432,29 @@ if ($showAlert) {
                             </div>
                         </div>
                     </div>
-                </div>
-                </a>
-                
-                <button class="close-explore" id="closeExplore">Back to Home <i class="fas fa-home"></i></button>
             </div>
-        </section>
-        
-        <!-- Popup div -->
-        <div id="logout-popup" class="logout-popup">
-            Logging out...
+            </a>
+
+            <button class="close-explore" id="closeExplore">Back to Home <i class="fas fa-home"></i></button>
         </div>
-        <div id="customAlert" class="custom-alert">
-            <i class="fas fa-check-circle"></i>
-            <span id="alertMessage"></span>
-        </div>
-    
+    </section>
+
+    <!-- Popup div -->
+    <div id="logout-popup" class="logout-popup">
+        Logging out...
+    </div>
+    <div id="customAlert" class="custom-alert">
+        <i class="fas fa-check-circle"></i>
+        <span id="alertMessage"></span>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.navbar li a');
             document.getElementById('home').classList.add('active');
-            
+
             navLinks.forEach(link => {
-                link.addEventListener('click', function () {
+                link.addEventListener('click', function() {
                     navLinks.forEach(nav => nav.classList.remove('active'));
                     this.classList.add('active');
                 });
@@ -433,50 +470,62 @@ if ($showAlert) {
             const closeExplore = document.getElementById('closeExplore');
 
             // Burger menu functionality
-            burgerIcon.addEventListener('click', function () {
+            burgerIcon.addEventListener('click', function() {
                 slidePage.classList.toggle('show');
             });
 
-            closeBtn.addEventListener('click', function () {
+            closeBtn.addEventListener('click', function() {
                 slidePage.classList.remove('show');
             });
-            
+
             // Logout functionality
             logoutLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 logoutPopup.style.display = 'block';
                 setTimeout(function() {
-                    window.location.href = 'index.php';
+                    const form = document.createElement('form');
+                    form.action = '{{ route("logout") }}';
+                    form.method = 'POST';
+                    form.innerHTML = '@csrf';
+                    document.body.appendChild(form);
+                    form.submit();
                 }, 1000);
             });
-            
+
             // Explore button functionality
             exploreBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 exploreSection.style.display = 'block';
                 // Smooth scroll to the explore section
-                exploreSection.scrollIntoView({ behavior: 'smooth' });
+                exploreSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
-            
+
             // Close explore section
             closeExplore.addEventListener('click', function() {
                 exploreSection.style.display = 'none';
                 // Scroll back to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
         });
+
         function showAlert(message, type = 'success') {
             const alertBox = document.getElementById('customAlert');
             const alertMessage = document.getElementById('alertMessage');
             const alertIcon = alertBox.querySelector('i');
-            
+
             alertMessage.textContent = message;
             alertBox.style.display = 'block';
-            
+
             setTimeout(function() {
                 alertBox.style.display = 'none';
             }, 2000);
         }
     </script>
 </body>
+
 </html>

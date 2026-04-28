@@ -1,0 +1,166 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #a8d8b9, #d3f3e3);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h1{
+    margin-bottom: 4px;
+}
+
+.chat-container {
+    width: 600px; /* Increased width */
+    height: 700px; /* Added height for better visibility */
+    max-width: 90%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #59a96a; /* Green border for theme */
+}
+
+.chat-header {
+    background: linear-gradient(rgba(76, 175, 80, 0.8), rgba(46, 125, 50, 0.8)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 15px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.chat-header h4 {
+    font-size: 0.7em;
+    font-style: italic;
+    margin: 5px 0 0;
+    opacity: 0.8;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px; /* Slightly wider scrollbar */
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #59a96a;
+    border-radius: 4px;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    background-color: #eef5ee;
+    border-top: 2px solid #59a96a;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px; /* Slightly larger for user comfort */
+    border: 1px solid #59a96a;
+    border-radius: 20px; /* More rounded input */
+    outline: none;
+    font-size: 1em;
+}
+
+.chat-input input:focus {
+    border: 2px solid #3e7c44;
+}
+
+.chat-input button {
+    margin-left: 10px;
+    padding: 12px 20px; /* Larger button for better usability */
+    background: #59a96a;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px; /* Rounded button */
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.chat-input button:hover {
+    background: #3e7c44;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    background-color: #f3f9f5;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between messages */
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: #dcf8c6; /* Light green bubble for user */
+    color: #000000;
+    padding: 10px 15px;
+    border-radius: 10px 0 10px 10px; /* Rounded bubble with a "tail" feel */
+    max-width: 70%;
+    word-wrap: break-word;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 0.95em;
+    margin-bottom: 8px; /* Add a bit more space between messages */
+}
+
+.bot-message {
+    align-self: flex-start;
+    background-color: #ffffff; /* White bubble for chatbot */
+    color: #000000;
+    padding: 10px 15px;
+    border-radius: 0 10px 10px 10px; /* Rounded bubble opposite to user */
+    max-width: 70%;
+    word-wrap: break-word;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 0.95em;
+    margin-bottom: 8px; /* Add a bit more space between messages */
+}
+/* style.css */
+/* ... other styles ... */
+
+.bot-message-content p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    font-size: 1em; /* Adjust font size for bot messages */
+}
+
+.bot-message-content strong {
+    font-weight: bold;
+    color: #388e3c; /* Example: highlight bold text */
+}
+
+.bot-message-content em {
+    font-style: italic;
+    color: #777; /* Example: style italic text */
+}
+
+.bot-message-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.bot-message-content ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.bot-message-content li {
+    margin-bottom: 5px;
+}
+
+.bot-message-content a {
+    color: #1976d2;
+    text-decoration: underline;
+}
+
+/* You can add more styles for specific classes if you decide to add them in JavaScript */

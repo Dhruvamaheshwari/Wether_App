@@ -1,0 +1,260 @@
+*{
+    margin:0;
+    padding:0;
+    font-family: "Poppins" , sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    box-sizing:border-box;
+}
+
+::-webkit-scrollbar{
+    width: 5px;
+
+}
+
+::-webkit-scroll-thumb{
+    background: #83838398; 
+}
+
+body{
+    height:100vh;
+    background-color: #e9f5e9;
+    color: #2d472d;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+
+}
+
+.weather-input{
+    /* width: 35%; */
+    width: 25%;
+    position: fixed;
+    inset: 0;
+    background: #a7d7a7;
+    padding: 1rem 2.5rem;
+}
+
+.weatherIcon{
+    background-position: 50% !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    display: block;
+    height: 25%;
+    margin: 2rem auto;
+    transition: background-image 0.3s ease-in-out;
+
+}
+
+@keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+  
+
+.input-group{
+    position:relative;
+    display: flex;
+    align-items:center ;
+    margin: 2rem 0;
+
+}
+
+.input-group input{
+    background-color:  #f0fff0;
+    text-transform: capitalize;
+    /* color: #2d472d; */
+    padding: 1rem;
+    font-size: 15px;
+    border-radius: 6px;
+    width: 100%;
+    outline: none;
+    border: none;
+    color: #2d472d;
+}
+
+.input-group .converter{
+    position: absolute;
+    right:45px;
+    border:none;
+    outline: none;
+    font-size: 18px;
+    padding: 5px;
+    /* background-color: #f8f8f8; */
+    border-radius: 10px;
+    cursor: pointer;
+    background: #d1edd1;
+    color: #2d472d;
+
+}
+
+.input-group .fa-search{
+    position: absolute;
+    right: 15px;
+    color: #2d472d;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+
+.weather-output{
+    /* width: 60%; */
+    width:75%;
+    position: fixed;
+    inset: 0;
+    margin-left: 25%;
+    padding: 2rem;
+    background: #f4fbf4;
+    overflow:auto;
+}
+
+.weather-input .feelsLike,
+.weather-input .description,
+.weather-input .date,
+.weather-input .city{
+    padding: 10px 0;
+}
+
+.temperature{
+    font-size: 5rem;
+    text-align: center;
+    display: flex;
+    font-weight: 300;
+}
+
+.temperature span{
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+
+.Highlights{
+    display: grid;
+    grid-template-columns: repeat(3 , 350px);
+    grid-auto-flow: row;
+    row-gap: 1rem;
+    column-gap:  10px;
+    backdrop-filter: blur(5px);
+}
+
+.Forecast{
+    display: grid;
+    grid-template-columns: repeat(4 , 260px);
+    grid-auto-flow: row;
+    row-gap: 1rem;
+    column-gap: 10px;
+    backdrop-filter: blur(5px);
+
+}
+
+.Highlights div ,
+.Forecast div
+{
+    height: 200px;
+    display: grid;
+    background-color: #c6eec6;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0 , 0 , 0 , 0.05);
+    transition: transform 0.2s ease;
+
+
+}
+
+.Highlights div:hover,
+.Forecast div:hover{
+    transform: translateY(-4px);
+    cursor: pointer;
+    
+}
+
+.Highlights i{
+    font-size: 45px;
+    color: #2d472d;
+}
+
+.sun span{
+    align-items: center;
+    display: flex;
+    gap:10px;
+
+}
+
+.forecast-desc {
+    color: #4d704d;
+    font-size: 0.8 rem;
+    text-align: center;
+    padding-bottom: 5px;
+    font-style: italic;
+    
+}
+
+.Forecast div:hover{
+    cursor: pointer;
+}
+
+.description i{
+    font-size: 25px;
+    color: #4d704d;
+}
+
+.heading{
+    margin: 1rem 0;
+}
+
+
+/* for the farming recommendations */
+.recommendation-container {
+    min-width: 250px;
+    height: 150px; /* Visible area */
+    overflow: hidden;
+    position: relative;
+    background-color: #c6eec6;
+    color: #1a472a;
+    font-size: 1rem;
+    border-radius: 12px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  
+  
+  .recommendation-text {
+    display: inline-block;
+    animation: scroll-up 42000ms ease-in-out infinite;
+  }
+  
+  .recommendation-text p {
+    margin: 0;
+    padding: 0.3rem 0;
+  }
+
+
+  /* Keyframes for upward scroll */
+  @keyframes scroll-up {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+
+
+
+
+
+  
+
+
+

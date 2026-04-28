@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+
 
 // Register new user
 if (isset($_POST['signUp'])) {
@@ -32,7 +32,6 @@ if (isset($_POST['signIn'])) {
     $sql = "SELECT * FROM user WHERE email='$email' and password='$password'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        session_start();
         $row = $result->fetch_assoc();
         $_SESSION['email'] = $row['email'];
         $_SESSION['show_login_alert'] = true;  // Seting flag here to show alert
