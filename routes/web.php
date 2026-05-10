@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClimateDataController;
 use App\Http\Controllers\SoilSampleController;
 use App\Http\Controllers\WeatherController;
 
@@ -73,4 +74,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/weather/data', [WeatherController::class, 'fetch'])->name('weather.data');
     Route::get('/weather', [WeatherController::class, 'index'])->name('weather');
+
+    Route::get('/climate-data', [ClimateDataController::class, 'index'])->name('climate');
+    Route::get('/climate-data/fetch', [ClimateDataController::class, 'fetch'])->name('climate.fetch');
 });

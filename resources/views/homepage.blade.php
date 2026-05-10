@@ -314,7 +314,7 @@ if ($showAlert) {
             <img class="logo" src="Images\Logo.png" alt="logo">
             <ul class="navbar">
                 <li><a href="#" id="home" class="active">HOME</a></li>
-                <li><a href="{{ route('weather') }}" id="climate-data">CLIMATE DATA</a></li>
+                <li><a href="{{ route('climate') }}" id="climate-data">CLIMATE DATA</a></li>
                 <li><a href="{{ route('chatbot') }}" id="chat-bot">CHATBOT</a></li>
                 <div class="burger-menu">
                     <label class="burger" for="burger">
