@@ -285,10 +285,50 @@
                 align-items: center;
             }
         }
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: var(--white);
+            color: var(--farm-green);
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: 2px solid var(--farm-green);
+        }
+
+        .back-btn:hover {
+            background: var(--farm-green);
+            color: var(--white);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="position: relative;">
+        <!-- Back Button -->
+        <a href="{{ url('/') }}" class="back-btn">
+            <i class="fas fa-chevron-left"></i> Back to Home
+        </a>
+
         <!-- Header Section -->
         <section class="about-header">
             <h1><i class="fas fa-seedling"></i> About FarmForecast</h1>
@@ -327,7 +367,7 @@
             <div class="team-grid">
                 <div class="team-member">
                     <div class="team-img">
-                        <img src="Images/ChatGPT Image Mar 30, 2025, 10_44_21 AM.png" alt="Img4">
+                        <img src="" alt="Img4">
                     </div>
                     <div class="team-info">
                         <h3>Arpit Kumar</h3>
@@ -336,7 +376,7 @@
                 </div>
                 <div class="team-member">
                     <div class="team-img">
-                        <img src="Images\ChatGPT Image Apr 17, 2025, 09_03_55 PM.png" alt="Img4">
+                        <img src="" alt="Img4">
                     </div>
                     <div class="team-info">
                         <h3>Madhav Verma</h3>
@@ -345,19 +385,10 @@
                 </div>
                 <div class="team-member">
                     <div class="team-img">
-                        <img src="Images\WhatsApp Image 2025-04-17 at 9.19.07 PM.jpeg" alt="Img4">
+                        <img src="" alt="Img4">
                     </div>
                     <div class="team-info">
                         <h3>Shivansh Dubey</h3>
-                        <p>Developer</p>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <div class="team-img">
-                        <img src="Images\WhatsApp Image 2025-04-17 at 10.47.22 PM.jpeg" alt="Img2">
-                    </div>
-                    <div class="team-info">
-                        <h3>Aishwarya Arya</h3>
                         <p>Developer</p>
                     </div>
                 </div>
