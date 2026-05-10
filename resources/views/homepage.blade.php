@@ -325,7 +325,7 @@ if ($showAlert) {
                             <h2>More</h2>
                             <a href="{{ route('about') }}"><i class="fas fa-info-circle"></i> About Us</a>
                             <a href="{{ route('support') }}"><i class="fas fa-hands-helping"></i> Support</a>
-                            <a href="{{ route('index') }}" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            <a href="{{ route('login') }}" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
                             <button id="close-btn" class="close-btn">Back<i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
