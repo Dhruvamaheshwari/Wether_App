@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SoilSampleController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\MailController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
@@ -31,9 +32,11 @@ Route::middleware('auth')->group(function () {
         return view('AboutUs');
     })->name('about');
 
-    Route::match(['get', 'post'], '/contact', function () {
+    Route::get('/contact', function () {
         return view('contact');
-    })->name('contact');
+    })->name('contact.view');
+
+    Route::post('/contact', [MailController::class, 'send'])->name('contact.send');
 
     Route::get('/register', function () {
         return view('register');

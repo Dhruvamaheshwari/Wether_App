@@ -15,7 +15,7 @@
   </video>
 
   <!-- Contact Form -->
-  <form class="container" id="contactForm" action="{{ route('contact') }}" method="POST" onsubmit="return submitForm(event);">
+  <form class="container" id="contactForm" action="{{ route('contact.send') }}" method="POST" onsubmit="return submitForm(event);">
     @csrf
     <h2>Contact Us</h2>
     <p class="subtext">Have questions about our<br>Automated Climate Monitoring System?</p>
@@ -54,7 +54,7 @@
       const form = document.getElementById("contactForm");
       const formData = new FormData(form);
 
-      fetch("{{ route('contact') }}", {
+      fetch("{{ route('contact.send') }}", {
           method: "POST",
           body: formData
         })
@@ -66,7 +66,8 @@
               window.location.href = "{{ route('office') }}";
             }, 3000);
           } else {
-            alert("Failed to send message. Please try again.");
+            alert("Failed to send message: " + data);
+            console.error("Server response:", data);
           }
         })
         .catch(error => {
