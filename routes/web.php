@@ -10,12 +10,16 @@ use App\Http\Controllers\MailController;
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
         return view('Index');
-    })->name('index');
+    })->name('login');
 
     // Authentication Routes
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 });
+
+Route::get('/chatbot', function () {
+    return view('chatbot');
+})->name('chatbot');
 
 Route::middleware('auth')->group(function () {
     
@@ -72,9 +76,8 @@ Route::middleware('auth')->group(function () {
         return view('Alert');
     })->name('alert');
 
-    Route::get('/chatbot', function () {
-        return view('chatbot');
-    })->name('chatbot');
+
+    Route::post('/chatbot/message', [App\Http\Controllers\ChatbotController::class, 'sendMessage'])->name('chatbot.message');
 
     Route::get('/weather/data', [WeatherController::class, 'fetch'])->name('weather.data');
     Route::get('/weather', [WeatherController::class, 'index'])->name('weather');
