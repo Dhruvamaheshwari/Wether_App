@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="sidebar-footer">
-                    <p>© 2025 FarmForecast</p>
+                    <p>© 2026 FarmForecast</p>
                 </div>
             </div>
 
@@ -78,7 +78,7 @@
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
-                    <p class="input-footer">SubhChintak can make mistakes. Verify important agricultural data.</p>
+                    <p class="input-footer">AgriBot can make mistakes. Verify important agricultural data.</p>
                 </div>
             </div>
         </div>

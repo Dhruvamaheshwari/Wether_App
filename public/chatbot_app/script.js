@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({ message: text })
@@ -76,8 +77,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.response) {
                 displayMessage(data.response, "bot");
-            } else if (data.error) {
-                displayMessage("Error: " + data.error, "bot");
+            } else if (data.error || data.message) {
+                let errorText = data.error || data.message;
+                if (typeof errorText !== 'string') {
+                    errorText = JSON.stringify(errorText);
+                }
+                if (errorText.includes("API key not configured")) {
+                    errorText = `<strong>Configuration Missing:</strong> Please add your OpenRouter API key to the .env file. <br><a href="https://openrouter.ai/keys" target="_blank" style="color: #4CAF50; text-decoration: underline;">Get a free key here</a>`;
+                } else if (errorText.includes("Unauthenticated")) {
+                    errorText = `<strong>Authentication Required:</strong> Please log in to use the chatbot. <a href="/login" style="color: #4CAF50; text-decoration: underline;">Login here</a>`;
+                } else if (errorText.includes("not found") || response.status === 404) {
+                    errorText = `<strong>Model Error:</strong> The selected AI model was not found. Please check your API key permissions and model availability.`;
+                } else if (errorText.includes("quota") || response.status === 429) {
+                    errorText = `<strong>Quota Exceeded:</strong> You have reached the free tier limit. Please try again in a few minutes or check your billing details.`;
+                }
+                displayMessage("Error: " + errorText, "bot");
             } else {
                 displayMessage("Sorry, I am having trouble connecting right now.", "bot");
             }

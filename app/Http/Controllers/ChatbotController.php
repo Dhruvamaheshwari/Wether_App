@@ -15,11 +15,11 @@ class ChatbotController extends Controller
         ]);
 
         $message = $request->input('message');
-        $apiKey = env('GEMINI_API_KEY');
+        $apiKey = env('OPENROUTER_API_KEY');
 
         if (!$apiKey) {
             return response()->json([
-                'error' => 'Gemini API key not configured.',
+                'error' => 'OpenRouter API key not configured.',
             ], 500);
         }
 
@@ -73,37 +73,65 @@ Rules:
 7. If user asks unrelated questions, politely redirect to agriculture topics.
 8. Support multilingual responses if possible.
 9. Never provide harmful farming advice.
-10. Prioritize water conservation and crop safety.
+10. Prioritize water conservation and crop safety.";
 
-User Query: " . $message;
+        $url = "https://openrouter.ai/api/v1/chat/completions";
 
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . $apiKey;
+        $modelsToTry = [
+            'google/gemma-4-31b-it:free',
+            'minimax/minimax-m2.5:free',
+            'liquid/lfm-2.5-1.2b-instruct:free',
+            'qwen/qwen3-coder:free',
+            'meta-llama/llama-3.3-70b-instruct:free'
+        ];
 
-        try {
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post($url, [
-                'contents' => [
-                    [
-                        'parts' => [
-                            ['text' => $systemPrompt]
-                        ]
+        foreach ($modelsToTry as $model) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $apiKey,
+                    'Content-Type' => 'application/json',
+                    'HTTP-Referer' => config('app.url'),
+                    'X-Title' => config('app.name'),
+                ])->post($url, [
+                    'model' => $model,
+                    'messages' => [
+                        ['role' => 'system', 'content' => $systemPrompt],
+                        ['role' => 'user', 'content' => $message]
                     ]
-                ]
-            ]);
+                ]);
 
-            if ($response->successful()) {
-                $data = $response->json();
-                $botResponse = $data['candidates'][0]['content']['parts'][0]['text'] ?? 'I apologize, but I couldn\'t generate a response.';
-                return response()->json(['response' => $botResponse]);
+                if ($response->successful()) {
+                    $data = $response->json();
+                    $botResponse = $data['choices'][0]['message']['content'] ?? 'I apologize, but I couldn\'t generate a response.';
+                    return response()->json(['response' => $botResponse]);
+                }
+
+                // If it's a 429 Rate Limit error, continue to the next model
+                if ($response->status() === 429) {
+                    continue;
+                }
+
+                // For other errors, log and return
+                $errorData = $response->json();
+                $errorMessage = $errorData['error']['message'] ?? 'Failed to communicate with AI service.';
+                Log::error('OpenRouter API Error (' . $model . '): ' . $response->body());
+                
+                return response()->json([
+                    'error' => $errorMessage,
+                    'code' => $response->status()
+                ], $response->status());
+
+            } catch (\Exception $e) {
+                Log::error('Chatbot Exception (' . $model . '): ' . $e->getMessage());
+                // Try next model if it's a network exception
             }
-
-            Log::error('Gemini API Error: ' . $response->body());
-            return response()->json(['error' => 'Failed to communicate with AI service.'], 500);
-
-        } catch (\Exception $e) {
-            Log::error('Chatbot Exception: ' . $e->getMessage());
-            return response()->json(['error' => 'An unexpected error occurred.'], 500);
         }
+
+        // If all models failed with 429 or exceptions
+        return response()->json([
+            'error' => 'All free AI models are currently overloaded. Please wait a moment and try again.',
+            'code' => 429
+        ], 429);
+
     }
 }

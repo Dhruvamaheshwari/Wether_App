@@ -17,10 +17,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 });
 
-Route::get('/chatbot', function () {
-    return view('chatbot');
-})->name('chatbot');
-
 Route::middleware('auth')->group(function () {
     
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -76,6 +72,10 @@ Route::middleware('auth')->group(function () {
         return view('Alert');
     })->name('alert');
 
+
+    Route::get('/chatbot', function () {
+        return view('chatbot');
+    })->name('chatbot');
 
     Route::post('/chatbot/message', [App\Http\Controllers\ChatbotController::class, 'sendMessage'])->name('chatbot.message');
 
