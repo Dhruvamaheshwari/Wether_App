@@ -417,7 +417,7 @@ if ($showAlert) {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="{{ route('about') }}" class="feature-card-link">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -603,15 +603,7 @@ if ($showAlert) {
             // Close explore section
             closeExplore.addEventListener('click', function() {
                 exploreSection.style.display = 'none';
-<<<<<<< HEAD
                 document.querySelector('.site-footer').style.display = 'none';
-=======
-                // Remove parameter from URL without refreshing
-                const url = new URL(window.location);
-                url.searchParams.delete('explore');
-                window.history.pushState({}, '', url);
-                
->>>>>>> 21833e5f7cd357cf68d2f25e61ffc1d601049c17
                 // Scroll back to top
                 window.scrollTo({
                     top: 0,
@@ -623,6 +615,7 @@ if ($showAlert) {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('explore') === 'true') {
                 exploreSection.style.display = 'block';
+                document.querySelector('.site-footer').style.display = 'block';
                 setTimeout(() => {
                     exploreSection.scrollIntoView({
                         behavior: 'smooth'
