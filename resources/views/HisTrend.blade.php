@@ -198,9 +198,7 @@
                 <p>Our platform provides comprehensive historical climate data analysis to help you understand weather patterns, predict optimal planting times, and improve crop yields through informed decision-making.</p>
                 <a href="#data-explorer" class="btn">Explore Climate Data</a>
             </div>
-            <div class="hero-image">
-                <img src="FarmC.png" alt="Farm with climate visualization" width="820" height="470" />
-            </div>
+
         </section>
         
         <section class="features">
