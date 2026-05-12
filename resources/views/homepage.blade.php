@@ -388,23 +388,7 @@ if ($showAlert) {
                             </div>
                         </div>
                     </div>
-                </a>
-
-                <a href="{{ route('weather') }}" class="feature-card-link">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-cloud-sun-rain"></i>
-                        </div>
-                        <h3>Hyper-local Forecasts</h3>
-                        <p>Precision weather predictions tailored to your specific location and crop requirements.</p>
-                        <div class="data-preview">
-                            <div class="Forecast-Image">
-                                <img src="Images\wimg.jpg" alt="img4">
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
+                </a>        
                 <a href="{{ route('alert') }}" class="feature-card-link">
                     <div class="feature-card">
                         <div class="feature-icon">
