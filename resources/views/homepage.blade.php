@@ -388,7 +388,7 @@ if ($showAlert) {
                             </div>
                         </div>
                     </div>
-                </a>        
+                </a>
                 <a href="{{ route('alert') }}" class="feature-card-link">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -422,6 +422,106 @@ if ($showAlert) {
             <button class="close-explore" id="closeExplore">Back to Home <i class="fas fa-home"></i></button>
         </div>
     </section>
+
+    <!-- FarmForecast Footer -->
+    <style>
+        .site-footer {
+            background-color: #1e392a;
+            /* Dark green agriculture theme */
+            color: #ecf0f1;
+            padding: 40px 20px 20px;
+            font-family: inherit;
+            display: none;
+            /* Hidden by default, shown on Explore */
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .footer-logo h2 {
+            color: #4caf50;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .footer-logo p {
+            color: #bdc3c7;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links ul li a:hover {
+            color: #4caf50;
+        }
+
+        .footer-contact p {
+            margin: 8px 0;
+            color: #bdc3c7;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #2c533e;
+            font-size: 14px;
+            color: #95a5a6;
+        }
+    </style>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <h2>FarmForecast</h2>
+                <p>Empowering farmers with smart weather alerts & soil monitoring data for a better harvest.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('about') }}">About Us</a></li>
+                    <li><a href="{{ route('support') }}">Contact Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> support@farmforecast.com</p>
+                <p><i class="fas fa-phone-alt"></i> +91 98765 43210</p>
+                <p><i class="fas fa-map-marker-alt"></i> Punjab, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FarmForecast. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <!-- Popup div -->
     <div id="logout-popup" class="logout-popup">
@@ -480,6 +580,7 @@ if ($showAlert) {
             exploreBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 exploreSection.style.display = 'block';
+                document.querySelector('.site-footer').style.display = 'block';
                 // Smooth scroll to the explore section
                 exploreSection.scrollIntoView({
                     behavior: 'smooth'
@@ -489,6 +590,7 @@ if ($showAlert) {
             // Close explore section
             closeExplore.addEventListener('click', function() {
                 exploreSection.style.display = 'none';
+                document.querySelector('.site-footer').style.display = 'none';
                 // Scroll back to top
                 window.scrollTo({
                     top: 0,
