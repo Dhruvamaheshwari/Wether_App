@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Soil | FarmForecast</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
             --primary: #2e7d32;
@@ -265,6 +266,42 @@
 </head>
 
 <body>
+    <div class="back-btn-container">
+        <a href="{{ route('home') }}?explore=true" class="back-btn" title="Back to Home">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <style>
+        .back-btn-container {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 9999;
+        }
+        .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            color: #2e7d32;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.3rem;
+            border: 2px solid #2e7d32;
+        }
+        .back-btn:hover {
+            background-color: #2e7d32;
+            color: white;
+            transform: scale(1.15) rotate(-10deg);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+    </style>
+
     <header>
         <h1>Soil Health Analysis Tool</h1>
         <p>Get detailed insights into your soil composition</p>

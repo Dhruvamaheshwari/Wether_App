@@ -505,12 +505,28 @@ if ($showAlert) {
             // Close explore section
             closeExplore.addEventListener('click', function() {
                 exploreSection.style.display = 'none';
+                // Remove parameter from URL without refreshing
+                const url = new URL(window.location);
+                url.searchParams.delete('explore');
+                window.history.pushState({}, '', url);
+                
                 // Scroll back to top
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
             });
+
+            // Check if explore section should be opened on load
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('explore') === 'true') {
+                exploreSection.style.display = 'block';
+                setTimeout(() => {
+                    exploreSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }, 500);
+            }
         });
 
         function showAlert(message, type = 'success') {

@@ -10,6 +10,42 @@
 </head>
 
 <body>
+    <div class="back-btn-container">
+        <a href="{{ route('home') }}?explore=true" class="back-btn" title="Back to Home">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <style>
+        .back-btn-container {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 9999;
+        }
+        .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            color: #2e7d32;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.3rem;
+            border: 2px solid #2e7d32;
+        }
+        .back-btn:hover {
+            background-color: #2e7d32;
+            color: white;
+            transform: scale(1.15) rotate(-10deg);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+    </style>
+
     <div class="monitoring-dashboard">
         <h2>Real-time Field Monitoring</h2>
 
@@ -86,8 +122,7 @@
             </div>
 
             <div class="data-actions">
-                <button id="view-report-btn">View Full Report</button>
-                <button id="settings-btn"><i class="fas fa-cog"></i> Settings</button>
+                <button id="settings-btn" style="width: 100%;"><i class="fas fa-cog"></i> Settings</button>
             </div>
         </div>
 
@@ -115,6 +150,14 @@
 
         updateDateTime();
         setInterval(updateDateTime, 60000); // Update every minute
+
+        // Dashboard global settings
+        let dashboardSettings = {
+            updateFrequency: 5000, // default 5 seconds
+            tempUnit: 'metric'     // 'metric' for C, 'imperial' for F
+        };
+
+        let dataUpdateInterval;
 
         // Simulated sensor data
         let sensorData = {
@@ -218,8 +261,17 @@
 
         // Update sensor displays
         function updateSensorDisplays() {
-            // Temperature
-            document.getElementById('temperature').textContent = sensorData.temperature.current;
+            // Temperature conversion
+            let displayTemp = sensorData.temperature.current;
+            let tempSymbol = "°C";
+            
+            if (dashboardSettings.tempUnit === 'imperial') {
+                displayTemp = (displayTemp * 9/5) + 32;
+                tempSymbol = "°F";
+            }
+            
+            document.getElementById('temperature').textContent = displayTemp.toFixed(1);
+            document.querySelector('.data-item:nth-child(1) p').innerHTML = `<span id="temperature">${displayTemp.toFixed(1)}</span> ${tempSymbol}`;
             updateStatusAndTrend('temp', sensorData.temperature);
 
             // Humidity
@@ -280,6 +332,10 @@
         let monitoringChart;
 
         function initChart() {
+            if (monitoringChart) {
+                monitoringChart.destroy();
+            }
+            
             const ctx = document.getElementById('monitoring-chart').getContext('2d');
 
             const timeLabels = sensorData.temperature.history.map(item => {
@@ -291,8 +347,12 @@
                 data: {
                     labels: timeLabels,
                     datasets: [{
-                            label: 'Temperature (°C)',
-                            data: sensorData.temperature.history.map(item => item.value),
+                            label: `Temperature (${dashboardSettings.tempUnit === 'metric' ? '°C' : '°F'})`,
+                            data: sensorData.temperature.history.map(item => {
+                                let val = item.value;
+                                if (dashboardSettings.tempUnit === 'imperial') val = (val * 9/5) + 32;
+                                return Math.round(val * 10) / 10;
+                            }),
                             borderColor: '#e74c3c',
                             backgroundColor: 'rgba(231, 76, 60, 0.1)',
                             tension: 0.4,
@@ -312,8 +372,28 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Time (Hours)',
+                                color: '#2c3e50',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        },
                         y: {
-                            beginAtZero: false
+                            beginAtZero: false,
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Measured Value',
+                                color: '#2c3e50',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
                         }
                     },
                     interaction: {
@@ -339,8 +419,12 @@
 
             if (checkboxes[0].checked) { // Temperature
                 datasets.push({
-                    label: 'Temperature (°C)',
-                    data: sensorData.temperature.history.map(item => item.value),
+                    label: `Temperature (${dashboardSettings.tempUnit === 'metric' ? '°C' : '°F'})`,
+                    data: sensorData.temperature.history.map(item => {
+                        let val = item.value;
+                        if (dashboardSettings.tempUnit === 'imperial') val = (val * 9/5) + 32;
+                        return Math.round(val * 10) / 10;
+                    }),
                     borderColor: '#e74c3c',
                     backgroundColor: 'rgba(231, 76, 60, 0.1)',
                     tension: 0.4,
@@ -386,6 +470,14 @@
                     display: true,
                     position: 'right',
                     beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Radiation (W/m²)',
+                        color: '#9b59b6',
+                        font: {
+                            weight: 'bold'
+                        }
+                    },
                     grid: {
                         drawOnChartArea: false
                     }
@@ -401,30 +493,29 @@
             monitoringChart.update();
         }
 
-        // Fetch real data from OpenWeatherMap API
+        // Fetch real data from our backend API
         async function fetchAndUpdateData() {
-            const apiKey = "57b9dea7c9029726ba414508c1d76790";
             const city = document.getElementById("city-selector").value;
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            const url = `/climate-data/fetch?city=${city}`;
 
             try {
                 const res = await fetch(url);
                 const data = await res.json();
 
-                if (data.main) {
-                    sensorData.temperature.current = data.main.temp;
-                    sensorData.humidity.current = data.main.humidity;
-                    // Simulated fields based on random/derived values as before (since API doesn't provide precise soil/solar)
-                    sensorData.soilMoisture.current = Math.floor(Math.random() * 40 + 20);
-                    sensorData.solarRadiation.current = data.clouds ? data.clouds.all * 10 : 0;
+                if (data.current) {
+                    sensorData.temperature.current = data.current.temperature;
+                    sensorData.humidity.current = data.current.humidity;
+                    // Soil moisture isn't in OpenWeather, so we use indices or simulate if missing
+                    // Let's use a derived value or the random one if preferred, but let's try to be consistent
+                    sensorData.soilMoisture.current = Math.floor(Math.random() * 30 + 30); 
+                    // Solar radiation can be estimated from clouds
+                    sensorData.solarRadiation.current = data.current.clouds * 10;
                 }
 
                 // Update latest values in history array
                 const now = new Date();
 
                 ['temperature', 'humidity', 'soilMoisture', 'solarRadiation'].forEach(param => {
-                    // Update latest value instead of pushing a new one every 5 seconds to prevent memory leaks quickly,
-                    // or push and shift. Since the original chart showed hours, replacing the last element keeps the chart stable.
                     sensorData[param].history[sensorData[param].history.length - 1] = {
                         time: now,
                         value: sensorData[param].current
@@ -448,6 +539,11 @@
                         }
                     });
                     monitoringChart.update();
+                }
+
+                // Update Forecast if data is available
+                if (data.forecast) {
+                    updateWeatherForecast(data.forecast);
                 }
             } catch (err) {
                 console.error('Error fetching weather data:', err);
@@ -474,15 +570,104 @@
         });
 
         document.getElementById('export-btn').addEventListener('click', function() {
-            alert('Data export functionality would be implemented here!');
-        });
+            const rows = [
+                ["Date & Time", "Temperature (°C)", "Humidity (%)", "Soil Moisture (%)", "Solar Radiation (W/m²)"],
+            ];
 
-        document.getElementById('view-report-btn').addEventListener('click', function() {
-            alert('Full report view would be opened here!');
+            // Use temperature history as the primary timeline
+            sensorData.temperature.history.forEach((item, index) => {
+                const dateTime = item.time.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+
+                rows.push([
+                    `"${dateTime}"`,
+                    sensorData.temperature.history[index].value,
+                    sensorData.humidity.history[index].value,
+                    sensorData.soilMoisture.history[index].value,
+                    sensorData.solarRadiation.history[index].value
+                ]);
+            });
+
+            let csvContent = "data:text/csv;charset=utf-8," 
+                + rows.map(e => e.join(",")).join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `FarmForecast_Report_${timestamp}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showAlert('Field report exported successfully!', 'success');
         });
 
         document.getElementById('settings-btn').addEventListener('click', function() {
-            alert('Settings panel would be developed Soon!');
+            const settingsModal = document.createElement('div');
+            settingsModal.id = 'settings-modal';
+            settingsModal.style.position = 'fixed';
+            settingsModal.style.top = '0';
+            settingsModal.style.left = '0';
+            settingsModal.style.width = '100%';
+            settingsModal.style.height = '100%';
+            settingsModal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            settingsModal.style.display = 'flex';
+            settingsModal.style.justifyContent = 'center';
+            settingsModal.style.alignItems = 'center';
+            settingsModal.style.zIndex = '1001';
+            
+            const freqInSeconds = dashboardSettings.updateFrequency / 1000;
+            
+            settingsModal.innerHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 90%;">
+                    <h3 style="margin-bottom: 1rem;">Dashboard Settings</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Update Frequency (seconds)</label>
+                        <input type="number" id="update-freq-input" value="${freqInSeconds}" min="1" max="300" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Temperature Unit</label>
+                        <select id="temp-unit-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="metric" ${dashboardSettings.tempUnit === 'metric' ? 'selected' : ''}>Celsius (°C)</option>
+                            <option value="imperial" ${dashboardSettings.tempUnit === 'imperial' ? 'selected' : ''}>Fahrenheit (°F)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 2rem;">
+                        <button id="close-settings" style="background: #95a5a6;">Cancel</button>
+                        <button id="save-settings">Save Changes</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(settingsModal);
+            
+            document.getElementById('close-settings').onclick = () => settingsModal.remove();
+            document.getElementById('save-settings').onclick = () => {
+                const newFreq = parseInt(document.getElementById('update-freq-input').value) * 1000;
+                const newUnit = document.getElementById('temp-unit-select').value;
+                
+                dashboardSettings.updateFrequency = newFreq;
+                dashboardSettings.tempUnit = newUnit;
+                
+                settingsModal.remove();
+                showAlert('Settings saved and applied!', 'success');
+                
+                // Restart interval with new frequency
+                clearInterval(dataUpdateInterval);
+                dataUpdateInterval = setInterval(fetchAndUpdateData, dashboardSettings.updateFrequency);
+                
+                // Immediate update for units
+                updateSensorDisplays();
+                initChart(); // Re-init chart to update axes if needed
+                updateChartParameters();
+            };
         });
 
         // Parameter selection for chart
@@ -496,7 +681,7 @@
 
         // Start real-time updates
         fetchAndUpdateData(); // Initial call
-        setInterval(fetchAndUpdateData, 5000);
+        dataUpdateInterval = setInterval(fetchAndUpdateData, dashboardSettings.updateFrequency);
 
         // Add rotating animation for refresh button
         document.head.insertAdjacentHTML('beforeend', `
@@ -694,167 +879,128 @@
             document.head.appendChild(style);
         }
 
-        // Add weather forecast section
-        function addWeatherForecast() {
-            const forecastData = [{
-                    day: 'Today',
-                    icon: 'sun',
-                    temp: '36°C',
-                    condition: 'Sunny'
-                },
-                {
-                    day: 'Tomorrow',
-                    icon: 'cloud-sun',
-                    temp: '34°C',
-                    condition: 'Partly Cloudy'
-                },
-                {
-                    day: 'Wed',
-                    icon: 'cloud-rain',
-                    temp: '25°C',
-                    condition: 'Light Rain'
-                },
-                {
-                    day: 'Thu',
-                    icon: 'cloud',
-                    temp: '28°C',
-                    condition: 'Cloudy'
-                },
-                {
-                    day: 'Fri',
-                    icon: 'sun',
-                    temp: '35°C',
-                    condition: 'Sunny'
+        // Update weather forecast section with dynamic data
+        function updateWeatherForecast(forecastData) {
+            let weatherSection = document.querySelector('.weather-forecast');
+            
+            if (!weatherSection) {
+                const dashboardDiv = document.querySelector('.monitoring-dashboard');
+                weatherSection = document.createElement('div');
+                weatherSection.className = 'weather-forecast';
+                
+                // Add initial styling once
+                const style = document.createElement('style');
+                style.textContent = `
+                    .weather-forecast {
+                        background: white;
+                        padding: 2rem;
+                        border-radius: 8px;
+                        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+                        margin-top: 2rem;
+                    }
+                    .weather-forecast h3 {
+                        margin-bottom: 1.5rem;
+                        color: #2c3e50;
+                        position: relative;
+                        padding-bottom: 0.5rem;
+                    }
+                    .weather-forecast h3:after {
+                        content: '';
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 50px;
+                        height: 2px;
+                        background-color: #2ecc71;
+                    }
+                    .forecast-container {
+                        display: flex;
+                        justify-content: space-between;
+                        overflow-x: auto;
+                        gap: 1rem;
+                        padding-bottom: 5px;
+                    }
+                    .forecast-day {
+                        text-align: center;
+                        padding: 1rem;
+                        min-width: 140px;
+                        background-color: #f8f9fa;
+                        border-radius: 8px;
+                        transition: transform 0.3s;
+                    }
+                    .forecast-day:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                    }
+                    .forecast-date { font-weight: bold; margin-bottom: 0.5rem; }
+                    .forecast-icon { font-size: 2rem; margin: 0.5rem 0; color: #f39c12; filter: drop-shadow(0 0 5px rgba(243, 156, 18, 0.3)); }
+                    .forecast-temp { font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; color: #2c3e50; }
+                    .forecast-condition { color: #555; font-size: 0.9rem; text-transform: capitalize; font-weight: 500; }
+                `;
+                document.head.appendChild(style);
+                
+                const footer = document.querySelector('footer');
+                dashboardDiv.insertBefore(weatherSection, footer);
+            }
+
+            // Process forecast data to get daily summaries (it's 3-hourly)
+            const dailyForecasts = {};
+            forecastData.forEach(item => {
+                const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+                if (!dailyForecasts[date]) {
+                    dailyForecasts[date] = item;
                 }
-            ];
+            });
 
-            const dashboardDiv = document.querySelector('.monitoring-dashboard');
-            const weatherSection = document.createElement('div');
-            weatherSection.className = 'weather-forecast';
-            weatherSection.innerHTML = '<h3>Weather Forecast</h3>';
-
+            weatherSection.innerHTML = '<h3>5-Day Weather Forecast</h3>';
             const forecastContainer = document.createElement('div');
             forecastContainer.className = 'forecast-container';
 
-            forecastData.forEach(day => {
+            Object.keys(dailyForecasts).slice(0, 5).forEach(date => {
+                const day = dailyForecasts[date];
+                const iconCode = day.icon;
+                
+                // Map OpenWeather icons to FontAwesome for better coloring control
+                let faIcon = 'fa-sun';
+                let iconColor = '#f1c40f'; // Default Yellow for Sun
+                
+                if (iconCode.includes('01')) {
+                    faIcon = 'fa-sun';
+                    iconColor = '#f1c40f'; // Yellow Sun
+                } else if (iconCode.includes('02') || iconCode.includes('03') || iconCode.includes('04')) {
+                    faIcon = 'fa-cloud';
+                    iconColor = '#3498db'; // Blue Cloud
+                } else if (iconCode.includes('09') || iconCode.includes('10')) {
+                    faIcon = 'fa-cloud-showers-heavy';
+                    iconColor = '#3498db'; // Blue for rain clouds
+                } else if (iconCode.includes('11')) {
+                    faIcon = 'fa-bolt';
+                    iconColor = '#f1c40f'; // Yellow for lightning
+                } else if (iconCode.includes('13')) {
+                    faIcon = 'fa-snowflake';
+                    iconColor = '#3498db'; // Blue for snow
+                } else if (iconCode.includes('50')) {
+                    faIcon = 'fa-smog';
+                    iconColor = '#95a5a6'; // Grey for mist
+                }
+                
                 forecastContainer.innerHTML += `
                     <div class="forecast-day">
-                        <div class="forecast-date">${day.day}</div>
-                        <div class="forecast-icon"><i class="fas fa-${day.icon}"></i></div>
-                        <div class="forecast-temp">${day.temp}</div>
-                        <div class="forecast-condition">${day.condition}</div>
+                        <div class="forecast-date">${date}</div>
+                        <div class="forecast-icon"><i class="fas ${faIcon}" style="color: ${iconColor};"></i></div>
+                        <div class="forecast-temp">${Math.round(day.temp)}°C</div>
+                        <div class="forecast-condition">${day.description}</div>
                     </div>
                 `;
             });
 
             weatherSection.appendChild(forecastContainer);
-
-            // Insert before footer
-            const footer = document.querySelector('footer');
-            dashboardDiv.insertBefore(weatherSection, footer);
-
-            // Add styling
-            const style = document.createElement('style');
-            style.textContent = `
-                .weather-forecast {
-                    background: white;
-                    padding: 2rem;
-                    border-radius: 8px;
-                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-                    margin-top: 2rem;
-                }
-                
-                .weather-forecast h3 {
-                    margin-bottom: 1.5rem;
-                    color: var(--dark-color);
-                    position: relative;
-                    padding-bottom: 0.5rem;
-                }
-                
-                .weather-forecast h3:after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 50px;
-                    height: 2px;
-                    background-color: var(--primary-color);
-                }
-                
-                .forecast-container {
-                    display: flex;
-                    justify-content: space-between;
-                    overflow-x: auto;
-                    gap: 1rem;
-                }
-                
-                .forecast-day {
-                    text-align: center;
-                    padding: 1rem;
-                    min-width: 170px;
-                    background-color: #f8f9fa;
-                    border-radius: 8px;
-                    transition: transform 0.3s;
-                }
-                
-                .forecast-day:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                }
-                
-                .forecast-date {
-                    font-weight: bold;
-                    margin-bottom: 0.5rem;
-                }
-                
-                .forecast-icon {
-                    font-size: 2rem;
-                    margin: 0.5rem 0;
-                    color: var(--primary-color);
-                }
-                
-                .forecast-icon .fa-sun {
-                    color: #f39c12;
-                }
-                
-                .forecast-icon .fa-cloud-rain {
-                    color: #3498db;
-                }
-                
-                .forecast-icon .fa-cloud,
-                .forecast-icon .fa-cloud-sun {
-                    color: #95a5a6;
-                }
-                
-                .forecast-temp {
-                    font-size: 1.5rem;
-                    font-weight: bold;
-                    margin: 0.5rem 0;
-                }
-                
-                .forecast-condition {
-                    color: #7f8c8d;
-                }
-                
-                @media (max-width: 768px) {
-                    .forecast-container {
-                        overflow-x: auto;
-                        padding-bottom: 1rem;
-                    }
-                    
-                    .forecast-day {
-                        min-width: 80px;
-                        padding: 0.8rem;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
         }
 
         // Call additional UI enhancements after initial load
         setTimeout(() => {
             addIrrigationControl();
-            addWeatherForecast();
+            // Initial forecast will be loaded by fetchAndUpdateData()
 
             // Show welcome message
             showAlert('🌱 Welcome to the Field Monitoring Dashboard! Real-time data is now streaming.', 'success');

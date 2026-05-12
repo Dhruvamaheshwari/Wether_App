@@ -98,6 +98,42 @@ if (isset($_POST['forgot'])) {
     <link rel="stylesheet" href="Login_styles.css">
 </head>
 <body>
+    <div class="back-btn-container">
+        <a href="{{ url('/') }}" class="back-btn" title="Back to Login">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <style>
+        .back-btn-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+        }
+        .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: white;
+            color: #2e7d32;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            border: 2px solid #2e7d32;
+        }
+        .back-btn:hover {
+            background-color: #2e7d32;
+            color: white;
+            transform: scale(1.1);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <div class="background">
     <img src="Images\1598226.jpg" alt="background-image">
         <div class="login-container1">
