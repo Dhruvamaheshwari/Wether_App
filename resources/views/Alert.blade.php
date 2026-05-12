@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔔Alerts | FarmForecast</title>
     <link rel="stylesheet" href="alert.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
-
 <body>
     <header>
         <h1>Smart Agricultural Alerts</h1>
@@ -21,7 +20,9 @@
                     <h2 class="panel-title">
                         Current Conditions
                         <div id="notification-bell">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                             </svg>
@@ -30,7 +31,7 @@
                     </h2>
 
                     <div class="weather-card">
-                        <div style="font-size: 24px;" id="display-location">Punjab, Phagwara</div>
+                        <div style="font-size: 24px;" id="display-location">{{ $farmProfile->location ?? 'Punjab, Phagwara' }}</div>
                         <div style="font-size: 16px;" id="current-date">Wednesday, April 16, 2025</div>
                         <div class="temperature" id="current-temp">72°F</div>
                         <div style="font-size: 18px;">Partly Cloudy</div>
@@ -61,31 +62,31 @@
                     <h2 class="panel-title">Farm Profile</h2>
                     <div class="form-group">
                         <label for="location">Location</label>
-                        <input type="text" id="location" value="Sacramento Valley, CA">
+                        <input type="text" id="location" value="{{ $farmProfile->location ?? 'Sacramento Valley, CA' }}">
                     </div>
                     <div class="form-group">
                         <label for="field-size">Field Size</label>
-                        <input type="text" id="field-size" value="120 acres">
+                        <input type="text" id="field-size" value="{{ $farmProfile->field_size ?? '120 acres' }}">
                     </div>
                     <div class="form-group">
                         <label for="crop-type">Primary Crop</label>
                         <select id="crop-type">
-                            <option value="corn" selected>Corn</option>
-                            <option value="wheat">Wheat</option>
-                            <option value="soybean">Soybean</option>
-                            <option value="rice">Rice</option>
-                            <option value="alfalfa">Alfalfa</option>
-                            <option value="tomatoes">Tomatoes</option>
+                            <option value="corn" {{ strtolower($farmProfile->primary_crop ?? '') == 'corn' ? 'selected' : '' }}>Corn</option>
+                            <option value="wheat" {{ strtolower($farmProfile->primary_crop ?? '') == 'wheat' ? 'selected' : '' }}>Wheat</option>
+                            <option value="soybean" {{ strtolower($farmProfile->primary_crop ?? '') == 'soybean' ? 'selected' : '' }}>Soybean</option>
+                            <option value="rice" {{ strtolower($farmProfile->primary_crop ?? '') == 'rice' ? 'selected' : '' }}>Rice</option>
+                            <option value="alfalfa" {{ strtolower($farmProfile->primary_crop ?? '') == 'alfalfa' ? 'selected' : '' }}>Alfalfa</option>
+                            <option value="tomatoes" {{ strtolower($farmProfile->primary_crop ?? '') == 'tomatoes' ? 'selected' : '' }}>Tomatoes</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="soil-type">Soil Type</label>
                         <select id="soil-type">
-                            <option value="loam" selected>Loam</option>
-                            <option value="clay">Clay</option>
-                            <option value="sandy">Sandy</option>
-                            <option value="silt">Silt</option>
-                            <option value="clay-loam">Clay Loam</option>
+                            <option value="loam" {{ strtolower($farmProfile->soil_type ?? '') == 'loam' ? 'selected' : '' }}>Loam</option>
+                            <option value="clay" {{ strtolower($farmProfile->soil_type ?? '') == 'clay' ? 'selected' : '' }}>Clay</option>
+                            <option value="sandy" {{ strtolower($farmProfile->soil_type ?? '') == 'sandy' ? 'selected' : '' }}>Sandy</option>
+                            <option value="silt" {{ strtolower($farmProfile->soil_type ?? '') == 'silt' ? 'selected' : '' }}>Silt</option>
+                            <option value="clay-loam" {{ strtolower($farmProfile->soil_type ?? '') == 'clay-loam' ? 'selected' : '' }}>Clay Loam</option>
                         </select>
                     </div>
 
@@ -208,7 +209,7 @@
                             <p><strong>Soil Temperature:</strong> 62°F (Target: >55°F)</p>
                             <p><strong>Days Remaining:</strong> 14</p>
                         </div>
-
+                        
                         <div style="padding: 15px; border-radius: 8px; background-color: #e0f7fa; border-left: 4px solid #00acc1;">
                             <h3>Soybeans</h3>
                             <p><strong>Optimal Window:</strong> May 1 - Jun 15</p>
@@ -216,7 +217,7 @@
                             <p><strong>Soil Temperature:</strong> 62°F (Target: >60°F)</p>
                             <p><strong>Days Until Start:</strong> 16</p>
                         </div>
-
+                        
                         <div style="padding: 15px; border-radius: 8px; background-color: #fff8e1; border-left: 4px solid #ffb300;">
                             <h3>Winter Wheat</h3>
                             <p><strong>Optimal Window:</strong> Oct 1 - Nov 15</p>
@@ -224,7 +225,7 @@
                             <p><strong>Current Phase:</strong> Off-season</p>
                             <p><strong>Days Until Start:</strong> 168</p>
                         </div>
-
+                        
                         <div style="padding: 15px; border-radius: 8px; background-color: #f3e5f5; border-left: 4px solid #9c27b0;">
                             <h3>Cover Crops</h3>
                             <p><strong>Optimal Window:</strong> Sep 1 - Oct 15</p>
@@ -239,7 +240,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Set current date
             const currentDate = new Date();
             document.getElementById('current-date').textContent = currentDate.toLocaleDateString('en-US', {
@@ -381,7 +382,6 @@
                         <div class="alert-time">${randomAlert.time}</div>
                         <div class="alert-actions">
                             <button class="alert-button">Mark as Read</button>
-                            
                         </div>
                     </div>
                 `;
@@ -394,7 +394,7 @@
             }, 5000);
 
             // Handle mark as read buttons
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (e.target.classList.contains('alert-button') && e.target.textContent === 'Mark as Read') {
                     const alertItem = e.target.closest('.alert-item');
                     alertItem.style.opacity = '0.5'; // Mark as read by reducing opacity
@@ -542,19 +542,62 @@
 
             // Handle Profile Update Button click (for explicitly showing alert)
             const profileBtn = document.getElementById('update-profile-btn');
-            profileBtn.addEventListener('click', function() {
+            profileBtn.addEventListener('click', async function() {
+                const btn = this;
+                const originalText = btn.textContent;
+                btn.textContent = 'Updating...';
+                btn.disabled = true;
+
                 updateDashboard();
 
                 const locationInput = document.getElementById('location').value;
                 const fieldSizeInput = document.getElementById('field-size').value;
-                const cropName = document.getElementById('crop-type').options[document.getElementById('crop-type').selectedIndex].text;
-                const soilName = document.getElementById('soil-type').options[document.getElementById('soil-type').selectedIndex].text;
+                const cropName = document.getElementById('crop-type').value;
+                const soilName = document.getElementById('soil-type').value;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                // Display detailed alert showing all fields are updated
-                alert(`Farm Profile Updated! \n\n📍 Location: ${locationInput}\n📏 Size: ${fieldSizeInput}\n🌾 Crop: ${cropName}\n🟤 Soil: ${soilName}`);
+                try {
+                    const response = await fetch('/alert/profile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            location: locationInput,
+                            field_size: fieldSizeInput,
+                            primary_crop: cropName,
+                            soil_type: soilName
+                        })
+                    });
+
+                    if (response.ok) {
+                        // Give feedback to user
+                        const oldBg = btn.style.backgroundColor;
+                        btn.style.backgroundColor = '#4CAF50';
+                        btn.textContent = 'Updated!';
+                        setTimeout(() => {
+                            btn.style.backgroundColor = oldBg;
+                            btn.textContent = originalText;
+                            btn.disabled = false;
+                        }, 2000);
+                    } else {
+                        alert('Failed to update profile. Ensure you are logged in.');
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
             });
+            
+            // Run once on load to populate correct initial values
+            updateDashboard();
         });
     </script>
 </body>
-
 </html>

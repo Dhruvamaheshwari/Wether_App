@@ -416,8 +416,21 @@ if ($showAlert) {
                             </div>
                         </div>
                     </div>
+                </a>
+                
+                <a href="{{ route('about') }}" class="feature-card-link">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3>About Us</h3>
+                        <p>Learn more about FarmForecast, our mission, and the team behind the agricultural platform.</p>
+                        <div class="data-preview" style="display: flex; align-items: center; justify-content: center; background: #e8f5e9;">
+                            <i class="fas fa-users" style="font-size: 5rem; color: #4CAF50; opacity: 0.7;"></i>
+                        </div>
+                    </div>
+                </a>
             </div>
-            </a>
 
             <button class="close-explore" id="closeExplore">Back to Home <i class="fas fa-home"></i></button>
         </div>
