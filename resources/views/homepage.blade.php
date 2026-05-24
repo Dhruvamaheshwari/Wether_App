@@ -425,8 +425,8 @@ if ($showAlert) {
                         </div>
                         <h3>About Us</h3>
                         <p>Learn more about FarmForecast, our mission, and the team behind the agricultural platform.</p>
-                        <div class="data-preview" style="display: flex; align-items: center; justify-content: center; background: #e8f5e9;">
-                            <i class="fas fa-users" style="font-size: 5rem; color: #4CAF50; opacity: 0.7;"></i>
+                        <div class="data-preview" style="padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <img src="Images/about-us-graphic.png" alt="About Us Graphic" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </a>
@@ -603,7 +603,14 @@ if ($showAlert) {
             // Close explore section
             closeExplore.addEventListener('click', function() {
                 exploreSection.style.display = 'none';
-                document.querySelector('.site-footer').style.display = 'none';
+                // Hide footer
+                const footer = document.querySelector('.site-footer');
+                if (footer) footer.style.display = 'none';
+                
+                // Remove parameter from URL without refreshing
+                const url = new URL(window.location);
+                url.searchParams.delete('explore');
+                window.history.pushState({}, '', url);
                 // Scroll back to top
                 window.scrollTo({
                     top: 0,
