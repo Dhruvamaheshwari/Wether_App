@@ -397,29 +397,20 @@
             <h2><i class="fas fa-users"></i> Our Team Experts</h2>
             <div class="team-grid">
                 <div class="team-member">
-                    <div class="team-img">
-                        <img src="" alt="Img4">
-                    </div>
                     <div class="team-info">
-                        <h3>Arpit Kumar</h3>
+                        <h3>Aastha Gosh</h3>
                         <p>Developer</p>
                     </div>
                 </div>
                 <div class="team-member">
-                    <div class="team-img">
-                        <img src="" alt="Img4">
-                    </div>
                     <div class="team-info">
-                        <h3>Madhav Verma</h3>
+                        <h3>Dhruva Maheshwari</h3>
                         <p>Developer</p>
                     </div>
                 </div>
                 <div class="team-member">
-                    <div class="team-img">
-                        <img src="" alt="Img4">
-                    </div>
                     <div class="team-info">
-                        <h3>Shivansh Dubey</h3>
+                        <h3>Rudra Tiwari</h3>
                         <p>Developer</p>
                     </div>
                 </div>
